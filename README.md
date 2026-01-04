@@ -5,3 +5,7 @@ case-1 same state file and two developers:-
 in project same statefile will be used for all directory or files means statefile will be commaon for everyone.
 if you have a backend code in one directory and now your'e creating another directory and using same backend code then conflicts wil come like what resouces are there in preivious file which your'e copying will be overriden then you're also creating new resouce so if you run tf plan your respouce is going to add and previous rewsouces is going to destroy so it's not recommended too use same backend code to different directory
 always create new backend and every time modification in backend code then run tf init -reconfigure cause your'r using or creating new resources else if you want same code to be override then use tf init -migrate-state.
+
+
+tf-state lock concept=======================================
+if two dev run tf apply at same time then confict will come
