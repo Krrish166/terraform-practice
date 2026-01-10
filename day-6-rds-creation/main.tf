@@ -58,25 +58,23 @@ resource "aws_security_group" "rds_security_group" {
 }
 
 resource "aws_db_instance" "rds_instance" {
-  identifier        = "my-rds-instance"
-  allocated_storage = 20
-  engine            = "mysql"
-  engine_version    = "8.0"
-  instance_class    = "db.t3.micro"
+  identifier        = var.identifier
+  allocated_storage = var.allocated_storage
+  engine            = var.engine
+  engine_version    = var.engine_version
+  instance_class    = var.instance_class
   # change username and password as needed
-  db_name  = "mydatabase"
+  db_name  = var.db_name
 #   manage_master_user_password = true # let Terraform manage the password from secerets manager
   username = var.username
   password = var.password
   # configure a subnet group and security group for RDS
-  db_subnet_group_name   = aws_db_subnet_group.rds_subnet_group.name
-  vpc_security_group_ids = [aws_security_group.rds_security_group.id]
+  db_subnet_group_name   = var.aws_db_subnet_group
+  vpc_security_group_ids = var.vpc_security_group_ids
 
   
   publicly_accessible = false
-  tags = {
-    Name = "my-rds-instance"
-  }
+  tags = var.tags
 
     # Enable monitoring (CloudWatch Enhanced Monitoring)
   monitoring_interval      = 60  # Collect metrics every 60 seconds
@@ -131,10 +129,10 @@ resource "aws_db_instance" "read_replica" {
     db_subnet_group_name   = aws_db_subnet_group.rds_subnet_group.name
     vpc_security_group_ids = [aws_security_group.rds_security_group.id]
    # Final snapshot before deletion
-    skip_final_snapshot = true
+    skip_final_snapshot = false
    
    # Ensure the read replica is created after the primary instance
     depends_on = [
     aws_db_instance.rds_instance
   ]
-}
+}   
