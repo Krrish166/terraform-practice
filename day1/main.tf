@@ -15,7 +15,7 @@ resource "aws_instance" "virginia_ec2" {
     subnet_id = "subnet-00731278fbfcec6a8"
     instance_type = var.virginia_type
     tags = {
-        Name = "terraform-virginia-ec2"
+        Name = "terraform-virginia"
     }
   
 }
